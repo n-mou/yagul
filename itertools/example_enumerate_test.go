@@ -3,7 +3,8 @@ package itertools_test
 import (
 	"container/list"
 	"fmt"
-	"yagul/itertools"
+
+	"github.com/n-mou/yagul/itertools"
 )
 
 func ExampleEnumerateP() {

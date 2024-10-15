@@ -2,7 +2,8 @@ package list_test
 
 import (
 	"fmt"
-	"yagul/list"
+
+	"github.com/n-mou/yagul/list"
 )
 
 func ExampleList_Iterator() {

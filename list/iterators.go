@@ -2,7 +2,8 @@ package list
 
 import (
 	"iter"
-	"yagul/itertools"
+
+	"github.com/n-mou/yagul/itertools"
 )
 
 type listIterator[T any] struct {

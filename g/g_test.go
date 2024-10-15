@@ -3,7 +3,8 @@ package g_test
 import (
 	"fmt"
 	"os"
-	"yagul/g"
+
+	"github.com/n-mou/yagul/g"
 )
 
 func ExampleUnwrap() {

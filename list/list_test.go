@@ -6,7 +6,8 @@ import (
 	"strconv"
 	"strings"
 	"testing"
-	"yagul/list"
+
+	"github.com/n-mou/yagul/list"
 )
 
 type listTuple[T any] struct {
