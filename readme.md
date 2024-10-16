@@ -1,6 +1,11 @@
 # YAGUL
 
+<center>
+[![Go Reference](https://pkg.go.dev/badge/github.com/n-mou/yagul.svg)](https://pkg.go.dev/github.com/n-mou/yagul)
+</center>
+
 YAGUL (Yet Another Go-Utils Library) is my personal recopilation of helper and quality of life improvement modules that I regularly use in my go projects and I made it public because other devs may also find them useful. 
+
 
 # Features Showcase
 
