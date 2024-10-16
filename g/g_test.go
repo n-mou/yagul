@@ -7,13 +7,13 @@ import (
 	"github.com/n-mou/yagul/g"
 )
 
-func ExampleUnwrap() {
+func ExampleMust() {
 	// This is equivalent to:
 	// val, err := os.Stat(".")
 	// if err != nil {
 	//     panic(err)
 	// }
-	val := g.Unwrap(os.Stat("."))
+	val := g.Must(os.Stat("."))
 
 	fmt.Println(val.IsDir())
 	// Output: true

@@ -1,30 +1,25 @@
 // Package g holds types and functions that could live as global variables instead
-// of a module (currently it implements single line expressions for panicking when an
-// error is returned). The g is for "Global".
+// of a module. The g is for "Global". Currently it only has functions that serve
+// as syntax sugar for calling and panicking when an error is found in a single line.
 //
-// Currently it only has  functions that serve as syntax sugar for calling functions
-// and panicking when an error is found. Although panicking whenever an error is found
-// is not a proper way of handling them, sometimes it is the right way to do so, and
-// there's no syntax sugar provided from Go. These functions provide a more convenient
-// way of handling this case. Like the unwrap() function in Rust's result type.
+// # Warning
+//
+// This functions are meant to ease testing and prototyping but panicking hardly ever
+// is the way to go when handling errors. If you're developing a third party library no
+// function should ever panic when an error is found. It's preferable to return the
+// error and let the program using that library handle it. And if you're developing an
+// application, it's advised to know what types of errors can the libraries and APIs
+// used return and handle each case leaving the panic only when an unrecoverable error
+// is expected and even then, there's some controversy about it.
 package g
 
-// Unwrap takes any function that returns a value of any type and an error, panics
+// Must takes any function that returns a value of any type and an error, panics
 // if there's an error and returns the value if there's not. It's a one-line expression
 // for the classic "if err != nil {return err}", like the unwrap() function in Rust
 // Results. It's a generic function, so theres no need to type cast the value it returns
 // and the generic type T can be inferred from the function call, so there's no need to
 // specify it. Check the example for it's basic usage.
-//
-// The function's named Unwrap because it does what unwrap() does in Rust, but there's
-// also an Unwrap function in the [errors] package to unwrap errors (this function is
-// called unwrap in Rust because it unwraps a result). So maybe Unwrap is not the best
-// name but I still haven't found a name that convinces me more (maybe Force, but it's
-// already taken). On the other hand, anyone that knows Rust knows the unwrap() function
-// so giving this function the same name I can transmit what this function does better
-// than any sophisticated doc or example can. So I'm not sure if I should change it's
-// name or not.
-func Unwrap[T any](v T, err error) T {
+func Must[T any](v T, err error) T {
 	if err != nil {
 		panic(err)
 	}

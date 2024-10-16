@@ -4,109 +4,6 @@
 
 YAGUL (Yet Another Go-Utils Library) is my personal recopilation of helper and quality of life improvement modules that I regularly use in my go projects and I made it public because other devs may also find them useful. 
 
-
-# Features Showcase
-
-## A more convenient error handling (inspired by Rust)
-
-```go
-import github.com/n-mou/yagul/g
-
-// This
-dirInfo := g.Unwrap(os.Stat("."))
-
-// Is equivalent to this
-dirInfo, err := os.Stat(".")
-if err != nil {
-	panic(err)
-}
-
-// And this
-g.Force(os.Mkdir("tmp_dir", 0755))
-
-// Is equivalent to this
-err := os.Mkdir("tmp_dir", 0755)
-if err != nil {
-	panic(err)
-}
-```
-
-## A more convenient way of writing Go iterators
-
-```go
-import (
-	"container/list"
-	"fmt"
-	"github.com/n-mou/yagul/itertools"
-)
-package main
-
-// Implementing an iterator for Go's standar library double
-// linked list creating a type that implements the 
-// itertools.PullIterator interface
-type ListIterator struct {
-	currentNode *list.Element
-}
-
-func newListIterator(l *list.List) *ListIterator {
-	return &ListIterator{l.Front()}
-}
-
-// Next returns the next element of the iterator and a
-// boolean that signals if the iterator has finished.
-func (l *ListIterator) Next() (any, bool) {
-	if l.currentNode == nil {
-		return nil, false
-	}
-	returnVal := l.currentNode.Value
-	l.currentNode = l.currentNode.Next()
-	return returnVal, true
-}
-
-// Stop is a cleanup function. If the iterator uses resources
-// that must be released manually (like closing a file), 
-// place tht code here.
-func (l *ListIterator) Stop() {}
-
-func main() {
-	values := []string{"A", "B", "C", "D", "E"}
-	l := list.New()
-	for _, i := range values {
-		l.PushBack(i)
-	}
-
-	// Get a regular iterator (iter.Seq) from any
-	// type that implements itertools.PullIterator.
-	// Similar functions are implemented for 
-	// iterators of key-pair values.
-	iter := itertools.PullToPush(newListIterator(l))
-	for i := range iter {
-		fmt.Println(i)
-	}
-	// Output:
-	// A
-	// B
-	// C
-	// D
-	// E
-}
-```
-## Some file management utilities
-
-```go
-import "github.com/n-mou/yagul/fs"
-
-// Copy file from source to dest. The file contents
-// is loaded in a 32KB buffer so even files that 
-// weigh several GBs it won't crush. 
-n, err := fs.CopyFile("srcfile", "dstfile")
-
-// Copy srcdir to dstdir and recursively copy all of
-// it's files an subdirectories.
-err := fs.CopyDir("srcdir", "dstdir")
-
-```
-
 # Why?
 
 I'm relatively new to Go development and I've seen **many devs create a Go-utils repo** containing helper libraries they find useful. Some repos are very extensive and others are a small compilation of simple and selective helpers. However, **none of these Go-utils package is popular enough to became a de-facto standard** (like JQuery was in early Javascript). 
@@ -114,6 +11,13 @@ I'm relatively new to Go development and I've seen **many devs create a Go-utils
 I could make my own compilation but in most of these libraries there are some common functions that are rewritten over and over (like the functional `map()`, `filter()` and `reduce()`). So **instead of reinventing the wheel, I'll just post modules that I missed in those Go-utils repos** and that I think other Go devs might benefit from them.
 
 Thus, this repo is my humble contribution of helper functions and dev patterns that I find useful and not very popular in the Go community instead of a full fledged Go-utils library that aims to be a JQuery for Go. If you like it and use it in your projects, please give a star.
+
+# Current subpackages
+
+- `g`: types and functions that could live as global variables instead of being in a module (the g is for "Global"). Currently it only has functions that serve as syntax sugar for calling functions and panicking when an  error is found in a single line.
+- `fs`: useful functions for file and directories management that I personally miss in Go standard library. 
+- `itertools`: some helper functions to work with iterators and an adapter function that takes a pull based iterator (defined with a next() and a stop() function) and returns a regular `iter.Seq` or `iter.Seq2` regular iterator.
+- `list`: reimplementation of Go's standard library `container/list` using generics (the original used values of type any and every time a value is retrieved it must be type casted, reimplementing it with a generic type instead is more convenient).
 
 # Roadmap (lack of)
 
