@@ -25,7 +25,9 @@ func (l *ListIterator) Next() (any, bool) {
 	return returnVal, true
 }
 
-func (l *ListIterator) Stop() {}
+func (l *ListIterator) Stop() {
+	l.currentNode = nil
+}
 
 func ExamplePullIterator() {
 	values := []string{"A", "B", "C", "D", "E"}

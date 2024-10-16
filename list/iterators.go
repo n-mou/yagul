@@ -24,6 +24,7 @@ func (i *listIterator[T]) Next() (T, bool) {
 }
 
 func (i *listIterator[T]) Stop() {
+	i.el = nil
 }
 
 func (i *listBackwardsIterator[T]) Next() (T, bool) {
@@ -37,6 +38,7 @@ func (i *listBackwardsIterator[T]) Next() (T, bool) {
 }
 
 func (i *listBackwardsIterator[T]) Stop() {
+	i.el = nil
 }
 
 // Iterator returns an iterator that traverses all list elements from first to last

@@ -45,9 +45,10 @@ pointer receiver instead of a value receiver.
 
 The Stop function is a cleanup function, it's called either when the iterator's finished
 (when Next() starts returning false) or if the process breaks from the for loop before
-the iterator is exhausted. Usually it's an empty function but in case the iterator relies
-on resources that need to be closed (such as files and network or database connections),
-that code must be in this function.
+the iterator is exhausted. Usually it's used to set any pointer the struct has to nil
+to avoid memory leaks and, in case the iterator relies on resources that need to be
+closed (such as files and network or database connections), that code must be in this
+function.
 
 Finally, when calling [PullToPush] or [PullToPush2] you must pass a pointer of the
 struct implementing those methods instead of the struct itself. Since Next() and Close()

@@ -24,7 +24,9 @@ func (l *ListBackwardsIterator) Next() (any, bool) {
 	return returnVal, true
 }
 
-func (l *ListBackwardsIterator) Stop() {}
+func (l *ListBackwardsIterator) Stop() {
+	l.currentNode = nil
+}
 
 func ExamplePullIterator_backwards() {
 	values := []string{"A", "B", "C", "D", "E"}
