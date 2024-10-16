@@ -13,7 +13,7 @@ type List[T any] struct {
 	length int
 }
 
-// New returns an initialized list empty or with some elements.
+// New returns an initialized list either empty or with some elements.
 func New[T any](elements ...T) *List[T] {
 	l := List[T]{nil, nil, 0}
 	for _, i := range elements {
@@ -89,7 +89,7 @@ func (l *List[T]) Init() *List[T] {
 // If mark is not an element of l, the list is not modified.
 // The mark must not be nil.
 func (l *List[T]) InsertAfter(v T, mark *Element[T]) *Element[T] {
-	if mark.list != l {
+	if mark == nil || mark.list != l {
 		return nil
 	}
 	if mark == l.back {
@@ -109,7 +109,7 @@ func (l *List[T]) InsertAfter(v T, mark *Element[T]) *Element[T] {
 // If mark is not an element of l, the list is not modified.
 // The mark must not be nil.
 func (l *List[T]) InsertBefore(v T, mark *Element[T]) *Element[T] {
-	if mark.list != l {
+	if mark == nil || mark.list != l {
 		return nil
 	}
 	if mark == l.front {
@@ -128,15 +128,15 @@ func (l *List[T]) Len() int {
 // If e or mark is not an element of l, or e == mark, the list is not modified.
 // The element and mark must not be nil.
 func (l *List[T]) MoveAfter(e, mark *Element[T]) {
-	if e == mark || e.list != l || mark.list != l {
+	if e == nil || mark == nil || e == mark || e.list != l || mark.list != l {
 		return
 	}
 	l.remove(e)
 	e.prev = mark
 	e.next = mark.next
 	mark.next = e
-	if mark != nil { // If mark is not the back of l
-		mark.next.prev = e
+	if e.next != nil { // If mark is not the back of l
+		e.next.prev = e
 	}
 }
 
@@ -144,7 +144,7 @@ func (l *List[T]) MoveAfter(e, mark *Element[T]) {
 // If e or mark is not an element of l, or e == mark, the list is not modified.
 // The element and mark must not be nil.
 func (l *List[T]) MoveBefore(e, mark *Element[T]) {
-	if e == mark || e.list != l || mark.list != l {
+	if e == nil || mark == nil || e == mark || e.list != l || mark.list != l {
 		return
 	}
 	if mark.Prev() == nil {
@@ -161,7 +161,7 @@ func (l *List[T]) MoveBefore(e, mark *Element[T]) {
 // If e is not an element of l, the list is not modified.
 // The element must not be nil.
 func (l *List[T]) MoveToBack(e *Element[T]) {
-	if e.list != l || e == l.back {
+	if e == nil || e.list != l || e == l.back {
 		return
 	}
 	l.remove(e)
@@ -172,7 +172,7 @@ func (l *List[T]) MoveToBack(e *Element[T]) {
 // If e is not an element of l, the list is not modified.
 // The element must not be nil.
 func (l *List[T]) MoveToFront(e *Element[T]) {
-	if e.list != l || e == l.front {
+	if e == nil || e.list != l || e == l.front {
 		return
 	}
 	l.remove(e)
@@ -190,6 +190,9 @@ func (l *List[T]) PushBack(v T) *Element[T] {
 // PushBackList inserts a copy of another list at the back of list l.
 // The lists l and other may be the same. They must not be nil.
 func (l *List[T]) PushBackList(other *List[T]) {
+	if other == nil {
+		return
+	}
 	for i := range other.Iterator() {
 		l.PushBack(i)
 	}
@@ -206,6 +209,9 @@ func (l *List[T]) PushFront(v T) *Element[T] {
 // PushFrontList inserts a copy of another list at the front of list l.
 // The lists l and other may be the same. They must not be nil.
 func (l *List[T]) PushFrontList(other *List[T]) {
+	if other == nil {
+		return
+	}
 	for i := range other.BackwardsIterator() {
 		l.PushFront(i)
 	}
@@ -215,7 +221,7 @@ func (l *List[T]) PushFrontList(other *List[T]) {
 // It returns the element value e.Value.
 // The element must not be nil.
 func (l *List[T]) Remove(e *Element[T]) T {
-	if e.list != l {
+	if e == nil || e.list != l {
 		var zeroVal T
 		return zeroVal
 	}

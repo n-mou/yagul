@@ -17,7 +17,7 @@ an update. So, since I needed it I did it myself.
 
 # API Compatible
 
-Both List[T] and Element[T] implement the same funcs with an almost identical
+Both List[T] and Element[T] implement the same methods with an almost identical
 type signature (replacing type any with the generic T). Thus, 99.9% of the Go
 code that uses container/list types is reusable. The only exception is the
 list.New() func. It creates and returns a new empty list, with this

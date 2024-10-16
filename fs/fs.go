@@ -13,9 +13,14 @@ import (
 // return other errors apart from os.IsNotExist, this function propagates those
 // errors. It may seem pointless to write a function that checks the os.IsNotExist
 // error for you but leaves the rest of possible errors for you to handle, but if
-// in you particular case, any other errors (usually lack of privileges or hard
+// in your particular case, any other errors (usually lack of privileges or hardware
 // drive errors) cause the program to panic, this function can be combined with the
-// [yagul/g.Unwrap] function like this:
+// [yagul.g.Unwrap] function like this:
+//
+//	import (
+//		"github.com/n-nou/yagul/g"
+//		"github.com/n-mou/yagul/fs"
+//	)
 //
 //	fileExists := g.Unwrap(fs.Exists("file"))
 func Exists(path string) (bool, error) {
@@ -73,9 +78,9 @@ func CopyFile(source, dest string) (int64, error) {
 }
 
 // CopyDir copies source directory (and all it's contents) to dest. Currently
-// it doesn't support content merging (if dest exist CopyDir will return an
-// os.IsExist error instead of trying to merge it's contents). If source is
-// a file, it returns an os.ErrInvalid error. Any other errors returned by
+// it doesn't support content merging (if dest exists CopyDir will return an
+// [os.IsExist] error instead of trying to merge it's contents). If source is
+// a file, it returns an [os.ErrInvalid] error. Any other errors returned by
 // the functions used inside are also propagated.
 func CopyDir(source, dest string) error {
 	srcStat, err := os.Stat(source)
