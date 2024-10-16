@@ -22,7 +22,7 @@ import (
 //		"github.com/n-mou/yagul/fs"
 //	)
 //
-//	fileExists := g.Unwrap(fs.Exists("file"))
+//	fileExists := g.Must(fs.Exists("file"))
 func Exists(path string) (bool, error) {
 	_, err := os.Stat(path)
 	if err != nil {
