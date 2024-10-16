@@ -15,7 +15,7 @@ import (
 // error for you but leaves the rest of possible errors for you to handle, but if
 // in your particular case, any other errors (usually lack of privileges or hardware
 // drive errors) cause the program to panic, this function can be combined with the
-// [yagul.g.Unwrap] function like this:
+// [yagul.g.Must] function like this:
 //
 //	import (
 //		"github.com/n-nou/yagul/g"
